@@ -1,27 +1,376 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* General styles */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: 'Quicksand', Arial, Helvetica, sans-serif;
+  min-height: 100vh;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #33333348;
+  border-radius: 10px;
+  border: 3px solid #f1f1f1;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+.caption {
+  text-transform: uppercase;
+  color: #a19e9e;
+  font-size: .7rem;
+  letter-spacing: 6px;
+  margin: 5px;
+  animation: slideInLeft 1.5s ease-out;
+  text-align: left;
+  padding-top: 20px;
+}
+
+.heading {
+  font-size: 1rem;
+  font-family: 'Playfair Display', serif;
+  color: #333;
+  letter-spacing: 5px;
+  animation: slideInLeft 1.5s ease-out;
+  text-transform: uppercase;
+  margin-bottom: 50px;
+  text-align: left;
+}
+
+.text {
+  color: #00000083;
+  line-height: 2;
+  animation: slideInLeft 1.5s ease-out;
+  font-size: .9rem;
+}
+
+
+/* Sidebar styles */
+.sidebar {
+  width: 20%;
+  background-color: #e3e0e0;
+  padding: 20px;
+  padding-top: 50px;
+  box-shadow: 2px 0 5px rgba(100, 96, 96, 0.1);
+  margin-left: 50px;
+  min-height: 90vh;
+  overflow-y: auto;
+  position: fixed;
+}
+
+.hamburger-menu {
+  position: fixed; 
+  top: 10px; 
+  left: 20px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 200;  
+  display: none;
+}
+
+.sidebar-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #e3e0e0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  padding: 20px;
+  transform: translateX(0); 
+  transition: transform 0.3s ease-in-out;
+  text-align: center;
+}
+
+
+.profile {
+  text-align: center;
+}
+
+.sidebar .profileImage,
+.sidebar-menu .profileImage {
+  border-radius: 50%;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+.sidebar .profile h2,
+.sidebar-menu .profile h2 {
+  font-size: 1.6rem;
+  margin: 10px 0;
+  font-family: 'Playfair Display';
+}
+
+.sidebar-menu .profile p,
+.sidebar .profile p{
+  color: #2C98F0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  text-align: center;
+  display: inline;
+}
+
+/* Navbar styles */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+nav li {
+  margin: 10px 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  transition: color 0.3s; /* Smooth color transition */
+  padding-bottom: 4px;
+  line-height: 2;
+  position: relative; /* To position the pseudo-element */
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%; 
+  width: 0; 
+  height: 2px; 
+  background-color: #2C98F0;
+  transition: width 0.3s ease, left 0.3s ease; 
+}
+
+nav a:hover::after,
+nav a.active::after {
+  width: 100%; 
+  left: 0; 
+}
+
+nav a:hover {
+  color: #2C98F0; /* Optional: color change on hover */
+}
+
+/* Footer or additional text styles */
+.sidebar .copy {
+  margin-top: 40px;
+  text-align: center;
+  color: #333;
+  font-size: 0.85rem;
+  line-height: 2;
+}
+
+.sidebar-menu .copy{
+  margin-top: 40px;
+  text-align: center;
+  color: #333;
+  font-size: 0.85rem;
+  line-height: 2;
+  display: inline;
+}
+
+.sidebar .copy span,
+.sidebar-menu .copy span {
+  color: red;
+  font-size: 0.85rem;
+}
+
+/* Main content */
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+  margin-left: 28%;
+}
+
+/* Hero Section */
+
+.main-box .container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+
+.hero {
+  background-image: url('/images/bg.png');
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Ensure absolute positioning for sliding div */
+  overflow-x: hidden;
+}
+
+/* Slide Transition Styles */
+.hero .slide {
+  opacity: 0;
+  transition: opacity 1s ease-in-out; /* Fade effect */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero .slide.fade-in {
+  opacity: 1; /* Fade in */
+}
+
+.hero .slide.fade-out {
+  opacity: 0; /* Fade out */
+}
+
+.hero h1,
+.hero p,
+.hero .portfolioButton {
+  transition: opacity 1s ease-in-out;
+}
+
+/* Hero Heading */
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: -10px;
+  font-family: 'Playfair Display', serif;
+  line-height: 1.5;
+  letter-spacing: -3px;
+  color: #333;
+  animation: slideInLeft 1.5s ease-out;
+  padding-top: 120px;
+}
+
+/* Hero Paragraph */
+.hero p {
+  font-size: 1rem;
+  color: gray;
+  width: 60%;
+  line-height: 1.8;
+  animation: fadeIn 2s ease-out;
+}
+
+/* Hero Button */
+.hero .portfolioButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #333;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s all;
+  animation: bounceIn 2s ease-out;
+}
+
+.hero .portfolioButton:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Keyframes for Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+@media (max-width:912px){
+  .hero {
+    background: transparent;
+  }
+
+  .hero h1 {
+    letter-spacing: -1px;
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width:786px){
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: .8rem;
+  }
+
+  .sidebar {
+    display: none;
+  }
+  
+  .main {
+    margin-left: 0;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+}
+

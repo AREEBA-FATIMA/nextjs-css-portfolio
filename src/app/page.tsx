@@ -1,101 +1,183 @@
+"use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import AboutPage from "./about/page";
+import ContactPage from "./contact/page";
+import Services from "./services/page";
+import SkillsPage from "./skills/page";
+import Work from "./work/page";
 
-export default function Home() {
+const HomePage: React.FC = () => {
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [isFading, setIsFading] = useState<boolean>(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  const slides = [
+    {
+      heading: "I am a",
+      subHeading: "Web Developer",
+      paragraph:
+        "Passionate about building modern web applications using Next.js, React, and TypeScript. I focus on creating fast, efficient, and scalable solutions tailored to user needs.",
+      buttonText: "Explore My Work",
+      targetSection: "work", // Link to Work section
+    },
+    {
+      heading: "I Build",
+      subHeading: "Frontend & Backend",
+      paragraph:
+        "Skilled in frontend and backend development, with expertise in HTML, CSS, JavaScript, TypeScript, and Next.js. I create seamless, responsive applications that perform optimally on all devices.",
+      buttonText: "Learn More",
+      targetSection: "about", // Link to About section
+    },
+    {
+      heading: "I Design",
+      subHeading: "UI/UX with Figma",
+      paragraph:
+        "With a keen eye for design, I create user interfaces that are intuitive, visually appealing, and functional. I use Figma to design high-quality UI/UX for responsive web applications.",
+      buttonText: "View My Designs",
+      targetSection: "skills", // Link to Skills section
+    },
+    {
+      heading: "I Optimize",
+      subHeading: "Explore My Work",
+      paragraph:
+        "I specialize in optimizing web applications for SEO and performance, ensuring fast loading times and better search engine rankings to enhance user experience.",
+      buttonText: "See How I Optimize",
+      targetSection: "services", // Link to Services section
+    },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsFading(true);
+      setTimeout(() => {
+        setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+        setIsFading(false);
+      }, 1000); // Matching fade-out duration
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
+  // Smooth scroll & auto-close menu
+  useEffect(() => {
+    const handleSmoothScroll = (e: MouseEvent) => {
+      const target = e.target as HTMLAnchorElement;
+      const targetId = target.getAttribute("href")?.slice(1);
+      const targetElement = targetId ? document.getElementById(targetId) : null;
+      if (targetElement) {
+        e.preventDefault();
+        targetElement.scrollIntoView({ behavior: "smooth" });
+        setIsMenuOpen(false); // Close the menu
+      }
+    };
+
+    const links = document.querySelectorAll<HTMLAnchorElement>(".sidebar-menu nav a");
+    links.forEach((link) => link.addEventListener("click", handleSmoothScroll));
+
+    return () => {
+      links.forEach((link) => link.removeEventListener("click", handleSmoothScroll));
+    };
+  }, []);
+
+  const toggleMenu = (): void => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div>
+      <section className="hero" id="home">
+        {/* Hamburger Menu Icon */}
+        <div className="hamburger-menu" onClick={toggleMenu}>
+          {isMenuOpen ? <AiOutlineClose size={25} color="#333" /> : <AiOutlineMenu size={25} color="#333" />}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Sidebar/Menu */}
+        {isMenuOpen && (
+          <aside className="sidebar-menu">
+            <div className="profile">
+              <Image
+                src="/images/me-5.png"
+                alt="Profile"
+                width={130}
+                height={130}
+                className="profileImage"
+              />
+              <h2>Areeba Fatima</h2>
+              <p>Web Developer</p>
+            </div>
+            <nav>
+              <ul>
+                <li>
+                  <a href="#home" className="active">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="#about">About</a>
+                </li>
+                <li>
+                  <a href="#services">Services</a>
+                </li>
+                <li>
+                  <a href="#skills">Skills</a>
+                </li>
+                <li>
+                  <a href="#work">Work</a>
+                </li>
+                <li>
+                  <a href="#contact">Contact</a>
+                </li>
+              </ul>
+            </nav>
+            <p className="copy">
+              &copy; Copyright 2024 All rights reserved. <br /> Made with{" "}
+              <span style={{ color: "red" }}>❤️</span> by Areeba Fatima
+            </p>
+          </aside>
+        )}
+
+        {/* Slide Content */}
+        <div className={`slide ${isFading ? "fade-out" : "fade-in"}`}>
+          <h1>
+            {slides[currentSlide].heading}
+            <br />
+            {slides[currentSlide].subHeading}
+          </h1>
+          <p>{slides[currentSlide].paragraph}</p>
+          <button
+            className="portfolioButton"
+            onClick={() => {
+              const target = document.getElementById(slides[currentSlide].targetSection);
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+          >
+            {slides[currentSlide].buttonText}
+          </button>
+        </div>
+      </section>
+
+      {/* Page Sections */}
+      <div id="about">
+        <AboutPage />
+      </div>
+      <div id="services">
+        <Services />
+      </div>
+      <div id="skills">
+        <SkillsPage />
+      </div>
+      <div id="work">
+        <Work />
+      </div>
+      <div id="contact">
+        <ContactPage />
+      </div>
     </div>
   );
-}
+};
+
+export default HomePage;
