@@ -36,7 +36,7 @@ const Services = () => {
           </div>
           <h2 className={styles.textTitle}>SEO Optimization</h2>
           <p className={styles.textDescription}>
-            Improve your website's ranking and online presence with proven SEO practices.
+            Improve your website&apos;s ranking and online presence with proven SEO practices.
           </p>
         </div>
 

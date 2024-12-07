@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
       paragraph:
         "Passionate about building modern web applications using Next.js, React, and TypeScript. I focus on creating fast, efficient, and scalable solutions tailored to user needs.",
       buttonText: "Explore My Work",
-      targetSection: "work", // Link to Work section
+      targetSection: "work",
     },
     {
       heading: "I Build",
@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
       paragraph:
         "Skilled in frontend and backend development, with expertise in HTML, CSS, JavaScript, TypeScript, and Next.js. I create seamless, responsive applications that perform optimally on all devices.",
       buttonText: "Learn More",
-      targetSection: "about", // Link to About section
+      targetSection: "about",
     },
     {
       heading: "I Design",
@@ -36,7 +36,7 @@ const HomePage: React.FC = () => {
       paragraph:
         "With a keen eye for design, I create user interfaces that are intuitive, visually appealing, and functional. I use Figma to design high-quality UI/UX for responsive web applications.",
       buttonText: "View My Designs",
-      targetSection: "skills", // Link to Skills section
+      targetSection: "skills",
     },
     {
       heading: "I Optimize",
@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
       paragraph:
         "I specialize in optimizing web applications for SEO and performance, ensuring fast loading times and better search engine rankings to enhance user experience.",
       buttonText: "See How I Optimize",
-      targetSection: "services", // Link to Services section
+      targetSection: "services",
     },
   ];
 
@@ -54,13 +54,12 @@ const HomePage: React.FC = () => {
       setTimeout(() => {
         setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
         setIsFading(false);
-      }, 1000); // Matching fade-out duration
+      }, 1000);
     }, 5000);
 
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  // Smooth scroll & auto-close menu
   useEffect(() => {
     const handleSmoothScroll = (e: MouseEvent) => {
       const target = e.target as HTMLAnchorElement;
@@ -69,7 +68,7 @@ const HomePage: React.FC = () => {
       if (targetElement) {
         e.preventDefault();
         targetElement.scrollIntoView({ behavior: "smooth" });
-        setIsMenuOpen(false); // Close the menu
+        setIsMenuOpen(false);
       }
     };
 
@@ -88,12 +87,10 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <section className="hero" id="home">
-        {/* Hamburger Menu Icon */}
         <div className="hamburger-menu" onClick={toggleMenu}>
           {isMenuOpen ? <AiOutlineClose size={25} color="#333" /> : <AiOutlineMenu size={25} color="#333" />}
         </div>
 
-        {/* Sidebar/Menu */}
         {isMenuOpen && (
           <aside className="sidebar-menu">
             <div className="profile">
@@ -138,7 +135,6 @@ const HomePage: React.FC = () => {
           </aside>
         )}
 
-        {/* Slide Content */}
         <div className={`slide ${isFading ? "fade-out" : "fade-in"}`}>
           <h1>
             {slides[currentSlide].heading}
@@ -160,7 +156,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Page Sections */}
       <div id="about">
         <AboutPage />
       </div>

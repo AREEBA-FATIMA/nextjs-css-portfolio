@@ -59,7 +59,7 @@ export default function Work() {
                 <a
                   href={project.github}
                   title="View Code"
-                  aria-label={`View code for ${project.title}`}
+                  aria-label={`View code for ${project.title.replace(/'/g, "&apos;")}`} // Escape apostrophes
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -69,7 +69,7 @@ export default function Work() {
                 <a
                   href={project.liveDemo}
                   title="Live Demo"
-                  aria-label={`View live demo for ${project.title}`}
+                  aria-label={`View live demo for ${project.title.replace(/'/g, "&apos;")}`} // Escape apostrophes
                   target="_blank"
                   rel="noopener noreferrer"
                 >

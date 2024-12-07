@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { FaEnvelope, FaPhoneAlt, FaLinkedin } from "react-icons/fa"; // Removed map icon import
 import emailjs from "@emailjs/browser"; // Import EmailJS
@@ -146,7 +146,11 @@ const ContactPage: React.FC = () => {
               Send Message
             </button>
           </form>
-          {statusMessage && <p className={styles.statusMessage}>{statusMessage}</p>}
+          {statusMessage && (
+            <p className={styles.statusMessage}>
+              {statusMessage.replace(/'/g, "&apos;")}
+            </p>
+          )}
         </div>
       </div>
     </section>

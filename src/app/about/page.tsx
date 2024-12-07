@@ -15,10 +15,10 @@ const AboutPage = () => {
           <div className={styles['profile-info']}>
             <div className={styles['profile-text']}>
               <p className="text">
-                Hi, I'm Areeba Fatima. I am an ardent web developer fueled by an unwavering passion for crafting transformative digital experiences. My journey is one of innovation, precision, and creativity, where every line of code unites functionality with artistry. With a sharp eye for detail and a dedication to excellence, I specialize in building dynamic, scalable, and visually captivating web solutions.
+                Hi, I&apos;m Areeba Fatima. I am an ardent web developer fueled by an unwavering passion for crafting transformative digital experiences. My journey is one of innovation, precision, and creativity, where every line of code unites functionality with artistry. With a sharp eye for detail and a dedication to excellence, I specialize in building dynamic, scalable, and visually captivating web solutions.
               </p>
               <p className="text">
-                Driven by curiosity and a commitment to perfection, I thrive on solving complex challenges and delivering user-centric designs. Let’s collaborate to transform ideas into remarkable realities and leave a lasting impact in the digital space.
+                Driven by curiosity and a commitment to perfection, I thrive on solving complex challenges and delivering user-centric designs. Let&apos;s collaborate to transform ideas into remarkable realities and leave a lasting impact in the digital space.
               </p>
             </div>
           </div>
