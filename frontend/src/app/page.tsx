@@ -9,6 +9,49 @@ import SkillsPage from "./skills/page";
 import Work from "./work/page";
 import { getHeroSlides, getProfile, type HeroSlide, type Profile } from "@/lib/api";
 
+const FALLBACK_SLIDES: HeroSlide[] = [
+  {
+    id: 1,
+    heading: "I am",
+    sub_heading: "Full Stack & AI-Driven Developer",
+    paragraph:
+      "I build intelligent, scalable and user-centered apps using Django REST and Next.js.",
+    button_text: "Explore My Work",
+    target_section: "work",
+    order: 0,
+  },
+  {
+    id: 2,
+    heading: "I Build",
+    sub_heading: "ERP & API-first Systems",
+    paragraph:
+      "Modular ERPs, secure role-based dashboards, and robust API-driven architectures.",
+    button_text: "Learn More",
+    target_section: "about",
+    order: 1,
+  },
+  {
+    id: 3,
+    heading: "I Design",
+    sub_heading: "AI-Native Workflows",
+    paragraph:
+      "Integrating Agentic AI with OpenAI SDK for reasoning, planning and automation.",
+    button_text: "My Skills",
+    target_section: "skills",
+    order: 2,
+  },
+  {
+    id: 4,
+    heading: "I Deliver",
+    sub_heading: "Insights & Scale",
+    paragraph:
+      "Clean data models, strong APIs, and analytics—ready to scale for real users.",
+    button_text: "Services",
+    target_section: "services",
+    order: 3,
+  },
+];
+
 const HomePage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [isFading, setIsFading] = useState<boolean>(false);
@@ -16,57 +59,13 @@ const HomePage: React.FC = () => {
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [profile, setProfile] = useState<Profile | null>(null);
 
-  // Fallback slides if API fails
-  const fallbackSlides = [
-    {
-      id: 1,
-      heading: "I am",
-      sub_heading: "Full Stack & AI-Driven Developer",
-      paragraph:
-        "I build intelligent, scalable and user-centered apps using Django REST and Next.js.",
-      button_text: "Explore My Work",
-      target_section: "work",
-      order: 0,
-    },
-    {
-      id: 2,
-      heading: "I Build",
-      sub_heading: "ERP & API-first Systems",
-      paragraph:
-        "Modular ERPs, secure role-based dashboards, and robust API-driven architectures.",
-      button_text: "Learn More",
-      target_section: "about",
-      order: 1,
-    },
-    {
-      id: 3,
-      heading: "I Design",
-      sub_heading: "AI-Native Workflows",
-      paragraph:
-        "Integrating Agentic AI with OpenAI SDK for reasoning, planning and automation.",
-      button_text: "My Skills",
-      target_section: "skills",
-      order: 2,
-    },
-    {
-      id: 4,
-      heading: "I Deliver",
-      sub_heading: "Insights & Scale",
-      paragraph:
-        "Clean data models, strong APIs, and analytics—ready to scale for real users.",
-      button_text: "Services",
-      target_section: "services",
-      order: 3,
-    },
-  ];
-
   useEffect(() => {
     // Fetch hero slides from API
     getHeroSlides().then((data) => {
       if (data.length > 0) {
         setSlides(data);
       } else {
-        setSlides(fallbackSlides as HeroSlide[]);
+        setSlides(FALLBACK_SLIDES);
       }
     });
 
@@ -78,7 +77,7 @@ const HomePage: React.FC = () => {
     });
   }, []);
 
-  const displaySlides = slides.length > 0 ? slides : fallbackSlides as HeroSlide[];
+  const displaySlides = slides.length > 0 ? slides : FALLBACK_SLIDES;
 
   useEffect(() => {
     if (displaySlides.length === 0) return;

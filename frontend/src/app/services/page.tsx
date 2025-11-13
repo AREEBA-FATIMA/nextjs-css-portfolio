@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from './service.module.css';
 import { getServices, type Service } from "@/lib/api";
 import * as Icons from 'react-icons/fa';
+import type { IconType } from "react-icons";
 
 const Services = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -16,7 +17,13 @@ const Services = () => {
   }, []);
 
   const getIcon = (iconLibrary: string, iconName: string) => {
-    const IconComponent = (Icons as any)[iconName];
+    if (iconLibrary.toLowerCase() !== 'fa') {
+      return null;
+    }
+
+    const iconMap = Icons as Record<string, IconType>;
+    const IconComponent = iconMap[iconName];
+
     return IconComponent ? <IconComponent className={styles.icon} /> : null;
   };
 
