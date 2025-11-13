@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (
-    Profile, HeroSlide, Service, Skill, Project, 
-    ContactMessage, TechnicalSkill, ContactMessageAnalysis
+    Profile, HeroSlide, Service, Skill, Project,
+    ContactMessage, TechnicalSkill
 )
 
 
@@ -40,16 +40,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ContactMessageAnalysisSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ContactMessageAnalysis
-        fields = '__all__'
-        read_only_fields = ['created_at']
-
-
 class ContactMessageSerializer(serializers.ModelSerializer):
-    analysis = ContactMessageAnalysisSerializer(read_only=True)
-
     class Meta:
         model = ContactMessage
         fields = '__all__'

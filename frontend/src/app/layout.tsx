@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import "./globals.css";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { getProfile, type Profile } from "@/lib/api";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -56,7 +55,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body>
-        <GoogleAnalytics />
         <div className="main-box">
           <div className="container">
             {/* Sidebar */}

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Profile, HeroSlide, Service, Skill, Project,
-    ContactMessage, TechnicalSkill, ContactMessageAnalysis
+    ContactMessage, TechnicalSkill
 )
 
 
@@ -55,11 +55,4 @@ class TechnicalSkillAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'order', 'is_active', 'created_at']
     list_filter = ['category', 'is_active', 'created_at']
     ordering = ['category', 'order']
-
-
-@admin.register(ContactMessageAnalysis)
-class ContactMessageAnalysisAdmin(admin.ModelAdmin):
-    list_display = ['contact_message', 'intent', 'sentiment', 'priority', 'is_spam', 'created_at']
-    list_filter = ['intent', 'is_spam', 'created_at']
-    search_fields = ['contact_message__subject', 'contact_message__name', 'sentiment']
 

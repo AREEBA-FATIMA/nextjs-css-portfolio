@@ -7,9 +7,7 @@ A modern, full-stack portfolio website built with Next.js (frontend) and Django 
 - **Modern Frontend**: Next.js 14 with TypeScript and Tailwind CSS
 - **RESTful Backend**: Django REST Framework API
 - **Dynamic Content**: All content managed through Django admin panel
-- **Google Analytics**: Integrated tracking for website analytics
 - **Responsive Design**: Mobile-first, fully responsive UI
-- **AI-Ready**: Planned AI agent integrations (see `AI_AGENTS_PLANNING.md`)
 
 ## 📁 Project Structure
 
@@ -24,7 +22,6 @@ nextjs-css-portfolio/
 │   ├── public/              # Static assets
 │   ├── package.json         # Frontend package manifest
 │   └── ...                  # Next.js config files
-├── AI_AGENTS_PLANNING.md    # AI agents integration plan
 └── SETUP_GUIDE.md           # Detailed setup instructions
 ```
 
@@ -46,7 +43,6 @@ npm install
 2. Create `.env.local`:
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8000/api
-NEXT_PUBLIC_GA_ID=your-google-analytics-id
 ```
 
 3. Run development server:
@@ -79,7 +75,6 @@ pip install -r requirements.txt
 ```env
 SECRET_KEY=your-secret-key
 DEBUG=True
-OPENAI_API_KEY=your-openai-key-optional
 ```
 
 5. Run migrations:
@@ -101,7 +96,6 @@ python manage.py runserver
 ## 📚 Documentation
 
 - **Setup Guide**: See `SETUP_GUIDE.md` for detailed setup instructions
-- **AI Agents Plan**: See `AI_AGENTS_PLANNING.md` for planned AI integrations
 - **Backend API**: See `backend/README.md` for API documentation
 
 ## 🔌 API Endpoints
@@ -113,19 +107,6 @@ python manage.py runserver
 - `GET /api/projects/` - Get projects
 - `POST /api/contact/` - Submit contact message
 - `GET /api/technical-skills/` - Get technical skills
-
-## 🤖 AI Agents (Planned)
-
-The project includes a comprehensive plan for AI agent integration:
-
-1. **Contact Form AI Agent** - Auto-respond and analyze messages
-2. **Content Generation Agent** - Generate dynamic content
-3. **Analytics Agent** - Provide insights and recommendations
-4. **Recommendation Agent** - Suggest projects and skills
-5. **Email Automation Agent** - Automated email responses
-6. **SEO Agent** - SEO optimization and analysis
-
-See `AI_AGENTS_PLANNING.md` for detailed implementation plan.
 
 ## 🎨 Tech Stack
 
@@ -139,7 +120,6 @@ See `AI_AGENTS_PLANNING.md` for detailed implementation plan.
 - Django 5.0
 - Django REST Framework
 - SQLite (development) / PostgreSQL (production)
-- OpenAI SDK (for future AI agents)
 
 ## 📝 Admin Panel
 
@@ -156,12 +136,10 @@ Access the Django admin panel at `http://localhost:8000/admin/` to manage:
 
 ### Frontend (.env.local)
 - `NEXT_PUBLIC_API_URL` - Backend API URL
-- `NEXT_PUBLIC_GA_ID` - Google Analytics ID
 
 ### Backend (.env)
 - `SECRET_KEY` - Django secret key
 - `DEBUG` - Debug mode (True/False)
-- `OPENAI_API_KEY` - OpenAI API key (optional, for AI agents)
 
 ## 🚀 Deployment
 

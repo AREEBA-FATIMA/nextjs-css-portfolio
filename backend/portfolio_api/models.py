@@ -139,23 +139,3 @@ class TechnicalSkill(models.Model):
         return f"{self.get_category_display()} - {self.name}"
 
 
-class ContactMessageAnalysis(models.Model):
-    """AI analysis for contact messages"""
-    INTENT_CHOICES = [
-        ("job", "Job Opportunity"),
-        ("collab", "Collaboration"),
-        ("question", "Question"),
-        ("other", "Other"),
-    ]
-
-    contact_message = models.OneToOneField(ContactMessage, on_delete=models.CASCADE, related_name="analysis")
-    sentiment = models.CharField(max_length=20, blank=True, null=True)
-    intent = models.CharField(max_length=20, choices=INTENT_CHOICES, blank=True, null=True)
-    priority = models.IntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(10)])
-    ai_response_suggestion = models.TextField(blank=True, null=True)
-    is_spam = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Analysis for {self.contact_message.subject}"
-

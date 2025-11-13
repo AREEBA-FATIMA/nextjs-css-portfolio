@@ -143,6 +143,3 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-# OpenAI API Key (for future AI agents)
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
-

@@ -3,8 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     ProfileViewSet, HeroSlideViewSet, ServiceViewSet,
     SkillViewSet, ProjectViewSet, ContactMessageViewSet,
-    TechnicalSkillViewSet, ContentGenerateView, AnalyticsInsightsView,
-    ProjectRecommendationsView, EmailDraftView, SEOAnalyzeView
+    TechnicalSkillViewSet
 )
 
 router = DefaultRouter()
@@ -18,10 +17,5 @@ router.register(r'technical-skills', TechnicalSkillViewSet, basename='technical-
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('agents/content/generate/', ContentGenerateView.as_view()),
-    path('agents/analytics/insights/', AnalyticsInsightsView.as_view()),
-    path('agents/recommendations/projects/', ProjectRecommendationsView.as_view()),
-    path('agents/email/draft/', EmailDraftView.as_view()),
-    path('agents/seo/analyze/', SEOAnalyzeView.as_view()),
 ]
 

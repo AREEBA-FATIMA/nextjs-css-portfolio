@@ -21,7 +21,6 @@ npm install
 Create a `.env.local` file in the `frontend` directory:
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8000/api
-NEXT_PUBLIC_GA_ID=your-google-analytics-id-here
 ```
 
 3. **Run development server:**
@@ -59,7 +58,6 @@ Create a `.env` file in the `backend` directory:
 ```env
 SECRET_KEY=your-secret-key-here-generate-a-random-string
 DEBUG=True
-OPENAI_API_KEY=your-openai-api-key-here-optional-for-now
 ```
 
 5. **Run migrations:**
@@ -94,20 +92,6 @@ Admin panel: `http://localhost:8000/admin/`
    - **Skills:** Add your skills with percentages
    - **Projects:** Add your portfolio projects
    - **Technical Skills:** Add technical skills by category
-
-## Google Analytics Setup
-
-1. **Get your Google Analytics ID:**
-   - Go to [Google Analytics](https://analytics.google.com/)
-   - Create a new property or use existing one
-   - Get your Measurement ID (format: G-XXXXXXXXXX)
-
-2. **Add to environment:**
-   - Update `.env.local` with your `NEXT_PUBLIC_GA_ID`
-
-3. **Verify:**
-   - Visit your website
-   - Check Google Analytics Real-Time reports
 
 ## API Endpoints
 
@@ -190,14 +174,11 @@ Admin panel: `http://localhost:8000/admin/`
 
 1. Add your content via admin panel
 2. Customize styling as needed
-3. Review AI Agents planning document for future enhancements
-4. Set up production environment variables
-5. Deploy to hosting platforms
+3. Set up production environment variables
+4. Deploy to hosting platforms
 
 ## Support
 
 For issues or questions, refer to:
 - Django Documentation: https://docs.djangoproject.com/
 - Next.js Documentation: https://nextjs.org/docs
-- AI Agents Planning: See `AI_AGENTS_PLANNING.md`
-
