@@ -1,0 +1,7 @@
+# Railway ignore file - helps with cache clearing
+frontend/
+.next/
+node_modules/
+*.md
+!backend/
+
