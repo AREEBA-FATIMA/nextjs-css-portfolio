@@ -1,0 +1,18 @@
+[phases.setup]
+nixPkgs = ["python312", "pip", "pip3"]
+
+[phases.install]
+cmds = [
+  "cd backend && pip3 install --upgrade pip",
+  "cd backend && pip3 install -r requirements.txt"
+]
+
+[phases.build]
+cmds = [
+  "cd backend && python3 manage.py collectstatic --no-input",
+  "cd backend && python3 manage.py migrate"
+]
+
+[start]
+cmd = "cd backend && gunicorn portfolio_backend.wsgi:application"
+
