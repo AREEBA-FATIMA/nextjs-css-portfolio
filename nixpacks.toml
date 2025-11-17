@@ -1,16 +1,16 @@
 [phases.setup]
-nixPkgs = ["python312", "pip", "pip3"]
+nixPkgs = ["python312"]
 
 [phases.install]
 cmds = [
-  "cd backend && pip3 install --upgrade pip",
-  "cd backend && pip3 install -r requirements.txt"
+  "cd backend && pip install --upgrade pip",
+  "cd backend && pip install -r requirements.txt"
 ]
 
 [phases.build]
 cmds = [
-  "cd backend && python3 manage.py collectstatic --no-input",
-  "cd backend && python3 manage.py migrate"
+  "cd backend && python manage.py collectstatic --no-input",
+  "cd backend && python manage.py migrate"
 ]
 
 [start]
