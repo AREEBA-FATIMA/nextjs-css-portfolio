@@ -2,6 +2,6 @@ django==4.2.11
 djangorestframework==3.14.0
 django-cors-headers==4.3.1
 python-dotenv==1.0.0
-Pillow==10.2.0
+Pillow>=10.3.0
 gunicorn==21.2.0
 dj-database-url==2.1.0
