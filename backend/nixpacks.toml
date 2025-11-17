@@ -1,13 +1,10 @@
 [phases.setup]
-nixPkgs = ["python312", "curl"]
+nixPkgs = ["python312", "python312Packages.pip"]
 
 [phases.install]
 cmds = [
-  "curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py",
-  "python3 get-pip.py",
   "python3 -m pip install --upgrade pip",
-  "python3 -m pip install -r requirements.txt",
-  "rm get-pip.py"
+  "python3 -m pip install -r requirements.txt"
 ]
 
 [phases.build]
