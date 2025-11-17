@@ -1,10 +1,13 @@
 [phases.setup]
-nixPkgs = ["python312"]
+nixPkgs = ["python312", "curl"]
 
 [phases.install]
 cmds = [
+  "cd backend && curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py",
+  "cd backend && python3 get-pip.py",
   "cd backend && python3 -m pip install --upgrade pip",
-  "cd backend && python3 -m pip install -r requirements.txt"
+  "cd backend && python3 -m pip install -r requirements.txt",
+  "cd backend && rm get-pip.py"
 ]
 
 [phases.build]
@@ -14,5 +17,5 @@ cmds = [
 ]
 
 [start]
-cmd = "cd backend && python3 -m gunicorn portfolio_backend.wsgi:application"
+cmd = "cd backend && gunicorn portfolio_backend.wsgi:application"
 
