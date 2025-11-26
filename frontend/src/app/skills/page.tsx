@@ -7,24 +7,13 @@ const SkillsPage = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
 
   useEffect(() => {
+    // API function already includes fallback data
     getSkills().then((data) => {
-      if (data.length > 0) {
-        setSkills(data);
-      }
+      setSkills(data);
     });
   }, []);
 
-  // Fallback skills if API fails
-  const fallbackSkills = [
-    { id: 1, name: "HTML", percentage: 100, percentage_display: "100%", color_class: "green", order: 0 },
-    { id: 2, name: "CSS", percentage: 100, percentage_display: "100%", color_class: "blue", order: 1 },
-    { id: 3, name: "JavaScript", percentage: 70, percentage_display: "70%", color_class: "yellow", order: 2 },
-    { id: 4, name: "TypeScript", percentage: 80, percentage_display: "80%", color_class: "purple", order: 3 },
-    { id: 5, name: "Tailwind CSS", percentage: 90, percentage_display: "90%", color_class: "navy", order: 4 },
-    { id: 6, name: "Next.js", percentage: 85, percentage_display: "85%", color_class: "red", order: 5 },
-  ];
-
-  const displaySkills = skills.length > 0 ? skills : fallbackSkills as Skill[];
+  const displaySkills = skills.length > 0 ? skills : [];
 
   return (
     <section className={styles.skillsSection}>

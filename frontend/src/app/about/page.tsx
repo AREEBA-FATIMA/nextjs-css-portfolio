@@ -27,19 +27,20 @@ const AboutPage = () => {
           <div className={styles['profile-info']}>
             <div className={styles['profile-text']}>
               <p className="text">
-                {profile?.about_text_1 || "Hi, I’m Areeba Fatima, a passionate Full Stack & AI-Driven Web Developer focused on building intelligent, scalable, and user-centered solutions. I specialize in Django REST Framework (Python) and Next.js/React.js, combining powerful backends with sleek, high-performance frontends. I’ve crafted modular ERP systems, API-driven architectures, and secure role-based dashboards for real-world enterprise applications."}
+                {profile?.about_text_1}
               </p>
-              {profile?.about_text_2 ? (
+              {profile?.about_text_2 && (
                 <p className="text">{profile.about_text_2}</p>
-              ) : (
-                <>
-                  <p className="text">
-                    Currently, I’m working on a School/ERP Management System (Django + Next.js) with modules for HR, Students, Attendance, Exams, and Analytics—honing strengths in data modeling, API design, and efficient state management. I’m also diving deep into Agentic AI—integrating AI reasoning, planning, and automation using the OpenAI SDK—to build AI-native apps that adapt, assist, and learn.
-                  </p>
-                  <p className="text">
-                    Vision: I aim to merge AI and Web Development to build platforms that think, adapt, and automate intelligently—leading the shift toward AI-native systems that redefine how software interacts with humans and data.
-                  </p>
-                </>
+              )}
+              {profile?.vision_text && (
+                <p className="text">
+                  <strong>Vision:</strong> {profile.vision_text}
+                </p>
+              )}
+              {profile?.current_focus && (
+                <p className="text">
+                  <strong>Current Focus:</strong> {profile.current_focus}
+                </p>
               )}
             </div>
           </div>

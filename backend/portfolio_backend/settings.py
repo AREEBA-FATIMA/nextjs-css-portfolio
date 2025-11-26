@@ -19,7 +19,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-change-this-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+# Default to True for development, set DEBUG=False in production via .env
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 # Allow all hosts if ALLOWED_HOSTS is set to '*', otherwise use comma-separated list
 ALLOWED_HOSTS_STR = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1')
@@ -152,11 +153,19 @@ CORS_ALLOWED_ORIGINS = [
 # Add frontend URL from environment variable
 FRONTEND_URL = os.getenv('FRONTEND_URL', '')
 if FRONTEND_URL:
-    CORS_ALLOWED_ORIGINS.append(FRONTEND_URL)
+    # Handle multiple frontend URLs (comma-separated)
+    frontend_urls = [url.strip() for url in FRONTEND_URL.split(',')]
+    CORS_ALLOWED_ORIGINS.extend(frontend_urls)
 
 # Allow all origins if needed (for development only)
 if os.getenv('CORS_ALLOW_ALL', 'False') == 'True':
     CORS_ALLOW_ALL_ORIGINS = True
+
+# For production, also allow Vercel preview deployments
+if not DEBUG:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://.*\.vercel\.app$",
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
 

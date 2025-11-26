@@ -1,210 +1,221 @@
-# 🚀 Complete Deployment Guide - Database Data Show Karne Ke Liye
+# Deployment Guide
 
-Aapke database ka data frontend pe show karne ke liye **backend deploy karna zaroori hai**. Yeh complete guide follow karein.
-
----
+This guide will help you deploy the frontend to Vercel and backend to AWS or GitLab.
 
 ## 📋 Prerequisites
 
-1. ✅ GitHub pe project push ho chuka hai
-2. ✅ Database mein data add ho chuka hai (local)
-3. ✅ Frontend Vercel pe deploy ho chuka hai (assumed)
+- GitHub/GitLab account
+- Vercel account (free tier available)
+- AWS account (or GitLab account for GitLab CI/CD)
+- Domain name (optional)
 
 ---
 
-## 🎯 Step 1: Backend Deploy Karein (Railway - Recommended)
+## 🚀 Frontend Deployment (Vercel)
 
-### Railway Setup (Free Tier Available)
+### Step 1: Prepare Frontend
 
-#### 1.1 Railway Account
-- https://railway.app pe jao
-- "Start a New Project" click karo
-- GitHub se sign up/login karo
-- GitHub repo connect karo: `nextjs-css-portfolio`
+1. **Set Environment Variables:**
+   - Copy `.env.example` to `.env.local` in the `frontend/` directory
+   - Update `NEXT_PUBLIC_API_URL` with your backend URL
 
-#### 1.2 PostgreSQL Database Create
-1. Project dashboard → **"+ New"** → **"Database"** → **"Add PostgreSQL"**
-2. Database automatically create ho jayega
-3. Database ka **DATABASE_URL** automatically environment variable mein add ho jayega ✅
-
-#### 1.3 Web Service Create
-1. **"+ New"** → **"GitHub Repo"** select karo
-2. Apna repo select karo
-3. Settings configure karo:
-
-   **Basic Settings:**
-   - **Name**: `portfolio-backend`
-   - **Region**: Oregon (US West) ya apna preferred
-   - **Root Directory**: `backend` ⚠️ (Important!)
-
-   **Build & Deploy:**
-   - **Build Command**: (Auto-detect hoga, ya manually):
-     ```
-     pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
-     ```
-   - **Start Command**:
-     ```
-     gunicorn portfolio_backend.wsgi:application
-     ```
-
-#### 1.4 Environment Variables Add Karo
-"Variables" tab mein yeh add karo:
-
-1. **SECRET_KEY**:
-   ```bash
-   # Terminal mein run karo (Windows):
-   python -c "import secrets; print(secrets.token_urlsafe(50))"
-   ```
-   - Output copy karke paste karo
-
-2. **DEBUG**: `False`
-
-3. **ALLOWED_HOSTS**: 
-   - Railway automatically domain provide karega
-   - Example: `portfolio-backend-production.up.railway.app`
-   - Ya `*` use karo (development ke liye)
-
-4. **DATABASE_URL**: 
-   - Railway automatically add kar dega (PostgreSQL database se)
-   - Verify karo ke add ho gaya hai
-
-5. **FRONTEND_URL**: 
-   - Apne Vercel frontend ka URL
-   - Example: `https://your-app.vercel.app`
-
-#### 1.5 Deploy
-- Railway automatically deploy kar dega
-- Build logs check karo
-- Deployment successful hone ke baad **Backend URL** copy karo
-- Example: `https://portfolio-backend-production.up.railway.app`
-
----
-
-## 🎯 Step 2: Database Data Transfer (Local se Production)
-
-### Option A: Django Admin Se (Recommended)
-1. Local Django admin mein jao: `http://localhost:8000/admin`
-2. Saare data manually add karo Railway database mein
-3. Ya Django admin export/import use karo
-
-### Option B: Database Dump (Advanced)
 ```bash
-# Local database dump
-python manage.py dumpdata > data.json
-
-# Production mein import (Railway CLI use karke)
-railway run python manage.py loaddata data.json
+cd frontend
+cp .env.example .env.local
 ```
 
-### Option C: Direct Database Copy (SQLite se PostgreSQL)
-- Railway PostgreSQL database mein manually data add karo
-- Ya Django admin se copy karo
+2. **Update `vercel.json`:**
+   - Replace `your-backend-url.aws.com` with your actual backend URL
+
+### Step 2: Deploy to Vercel
+
+**Option A: Via Vercel Dashboard**
+1. Go to [vercel.com](https://vercel.com) and sign in
+2. Click "New Project"
+3. Import your GitHub/GitLab repository
+4. Set Root Directory to `frontend`
+5. Add Environment Variable:
+   - `NEXT_PUBLIC_API_URL` = `https://your-backend-url.aws.com/api`
+6. Click "Deploy"
+
+**Option B: Via Vercel CLI**
+```bash
+npm i -g vercel
+cd frontend
+vercel login
+vercel
+```
+
+### Step 3: Update Backend CORS
+
+After getting your Vercel URL, update backend CORS settings:
+- Add your Vercel URL to `FRONTEND_URL` in backend environment variables
 
 ---
 
-## 🎯 Step 3: Frontend Configuration (Vercel)
+## 🔧 Backend Deployment (AWS Elastic Beanstalk)
 
-### 3.1 Environment Variable Add Karo
-Vercel dashboard mein:
+### Step 1: Install EB CLI
 
-1. Project select karo
-2. **Settings** → **Environment Variables**
-3. Add karo:
-   - **Name**: `NEXT_PUBLIC_API_URL`
-   - **Value**: Apne Railway backend ka URL + `/api`
-   - Example: `https://portfolio-backend-production.up.railway.app/api`
+```bash
+pip install awsebcli
+```
 
-### 3.2 Redeploy
-- Environment variable add karne ke baad **Redeploy** karo
-- Ya automatic redeploy ho jayega
+### Step 2: Initialize Elastic Beanstalk
 
----
+```bash
+cd backend
+eb init -p python-3.12 portfolio-backend --region us-east-1
+```
 
-## 🎯 Step 4: CORS Configuration Verify
+### Step 3: Create Environment
 
-Backend settings mein CORS already configured hai. Verify karo:
+```bash
+eb create portfolio-backend-env
+```
 
-1. **FRONTEND_URL** environment variable Railway mein add hai
-2. Backend logs check karo (CORS errors nahi aane chahiye)
+### Step 4: Set Environment Variables
 
----
+```bash
+eb setenv SECRET_KEY=your-secret-key \
+          DEBUG=False \
+          ALLOWED_HOSTS=your-backend.elasticbeanstalk.com \
+          DATABASE_URL=postgresql://user:pass@host:port/db \
+          FRONTEND_URL=https://your-frontend.vercel.app \
+          CORS_ALLOW_ALL=False
+```
 
-## 🎯 Step 5: Testing
+### Step 5: Deploy
 
-### 5.1 Backend Test
-- Backend URL open karo: `https://your-backend-url/api/profile/active/`
-- JSON response aana chahiye
+```bash
+eb deploy
+```
 
-### 5.2 Frontend Test
-- Frontend URL open karo
-- Database ka data show hona chahiye (fallback data nahi)
+### Step 6: Check Status
 
----
-
-## 🔧 Alternative: Render Deployment
-
-Agar Railway use nahi karna, to Render use karo:
-
-### Render Setup
-1. https://render.com pe jao
-2. **"New +"** → **"Web Service"**
-3. GitHub repo connect karo
-4. Settings:
-   - **Root Directory**: `backend`
-   - **Build Command**: 
-     ```
-     pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
-     ```
-   - **Start Command**: 
-     ```
-     gunicorn portfolio_backend.wsgi:application
-     ```
-5. Environment Variables:
-   - `SECRET_KEY`: Generate karo
-   - `DEBUG`: `False`
-   - `ALLOWED_HOSTS`: `your-app.onrender.com`
-   - `DATABASE_URL`: PostgreSQL connection string
-   - `FRONTEND_URL`: Vercel frontend URL
+```bash
+eb status
+eb open
+```
 
 ---
 
-## ✅ Checklist
+## 🐳 Backend Deployment (Docker - Alternative)
 
-- [ ] Backend deployed (Railway/Render)
-- [ ] PostgreSQL database created
-- [ ] Environment variables added
-- [ ] Database data transferred (local se production)
-- [ ] Frontend environment variable configured (Vercel)
-- [ ] CORS settings verified
-- [ ] Backend API tested
-- [ ] Frontend tested (database data show ho raha hai)
+### Option 1: AWS ECS/Fargate
 
----
+1. **Build and Push to ECR:**
+```bash
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin your-account.dkr.ecr.us-east-1.amazonaws.com
+docker build -t portfolio-backend .
+docker tag portfolio-backend:latest your-account.dkr.ecr.us-east-1.amazonaws.com/portfolio-backend:latest
+docker push your-account.dkr.ecr.us-east-1.amazonaws.com/portfolio-backend:latest
+```
 
-## 🐛 Common Issues & Solutions
+2. **Create ECS Task Definition** with environment variables
+3. **Create ECS Service** and deploy
 
-### Issue 1: CORS Error
-**Solution**: `FRONTEND_URL` environment variable backend mein add karo
+### Option 2: GitLab Container Registry
 
-### Issue 2: Database Empty
-**Solution**: Local database se data transfer karo (Step 2)
+1. **Push to GitLab Registry:**
+```bash
+docker login registry.gitlab.com
+docker build -t registry.gitlab.com/your-username/portfolio-backend .
+docker push registry.gitlab.com/your-username/portfolio-backend
+```
 
-### Issue 3: 404 Error on API
-**Solution**: Backend URL verify karo, `/api` path check karo
-
-### Issue 4: Build Failed
-**Solution**: Build logs check karo, `requirements.txt` verify karo
-
----
-
-## 📞 Help
-
-Agar koi issue aaye:
-1. Backend logs check karo
-2. Frontend console check karo (browser DevTools)
-3. Network tab mein API calls verify karo
+2. **Use GitLab CI/CD** (`.gitlab-ci.yml` already configured)
 
 ---
 
-**Note**: Backend deploy karne ke baad hi database ka data frontend pe show hoga! 🎉
+## 🗄️ Database Setup (AWS RDS)
 
+### Create PostgreSQL Database
+
+1. Go to AWS RDS Console
+2. Create PostgreSQL instance
+3. Get connection string: `postgresql://user:pass@host:port/dbname`
+4. Add to `DATABASE_URL` environment variable
+
+### Run Migrations
+
+```bash
+eb ssh
+source /var/app/venv/*/bin/activate
+python manage.py migrate
+python manage.py createsuperuser
+```
+
+---
+
+## 📝 Environment Variables Checklist
+
+### Frontend (Vercel)
+- ✅ `NEXT_PUBLIC_API_URL`
+
+### Backend (AWS/GitLab)
+- ✅ `SECRET_KEY` (generate with: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`)
+- ✅ `DEBUG=False`
+- ✅ `ALLOWED_HOSTS`
+- ✅ `DATABASE_URL`
+- ✅ `FRONTEND_URL`
+- ✅ `CORS_ALLOW_ALL=False`
+
+---
+
+## 🔒 Security Best Practices
+
+1. **Never commit `.env` files**
+2. **Use strong SECRET_KEY**
+3. **Enable HTTPS only**
+4. **Set DEBUG=False in production**
+5. **Use environment variables for all secrets**
+6. **Enable CORS only for your frontend domain**
+
+---
+
+## 🧪 Testing Deployment
+
+1. **Frontend:** Visit your Vercel URL
+2. **Backend:** Test API endpoint: `https://your-backend-url/api/profile/active/`
+3. **Check CORS:** Ensure frontend can call backend API
+
+---
+
+## 📚 Additional Resources
+
+- [Vercel Documentation](https://vercel.com/docs)
+- [AWS Elastic Beanstalk Guide](https://docs.aws.amazon.com/elasticbeanstalk/)
+- [Django Deployment Checklist](https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/)
+
+---
+
+## 🆘 Troubleshooting
+
+### CORS Errors
+- Check `FRONTEND_URL` in backend environment variables
+- Verify frontend URL matches exactly (including https://)
+
+### Database Connection Issues
+- Verify `DATABASE_URL` format
+- Check security groups allow connections
+- Ensure database is publicly accessible (or use VPC)
+
+### Static Files Not Loading
+- Run `python manage.py collectstatic` manually
+- Check `STATIC_ROOT` setting
+- Verify S3/CloudFront configuration if using
+
+---
+
+## ✅ Post-Deployment Checklist
+
+- [ ] Frontend deployed and accessible
+- [ ] Backend API responding
+- [ ] CORS configured correctly
+- [ ] Database migrations applied
+- [ ] Environment variables set
+- [ ] HTTPS enabled
+- [ ] Admin panel accessible
+- [ ] Contact form working
+- [ ] All API endpoints tested

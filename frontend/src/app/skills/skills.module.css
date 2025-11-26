@@ -116,4 +116,53 @@
   .blue .circle {
     background-color: #2c98f0;
   }
+
+  /* Additional Colors */
+  .violet {
+    background-color: #8b5cf6;
+  }
+  
+  .violet .circle {
+    background-color: #8b5cf6;
+  }
+
+  .pink {
+    background-color: #ec4899;
+  }
+  
+  .pink .circle {
+    background-color: #ec4899;
+  }
+
+  .cyan {
+    background-color: #06b6d4;
+  }
+  
+  .cyan .circle {
+    background-color: #06b6d4;
+  }
+
+  .teal {
+    background-color: #14b8a6;
+  }
+  
+  .teal .circle {
+    background-color: #14b8a6;
+  }
+
+  .orange {
+    background-color: #f97316;
+  }
+  
+  .orange .circle {
+    background-color: #f97316;
+  }
+
+  .gray {
+    background-color: #6b7280;
+  }
+  
+  .gray .circle {
+    background-color: #6b7280;
+  }
   
